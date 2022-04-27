@@ -1,43 +1,48 @@
 defmodule BeerSong do
+  
+  @doc "Returns verses counting from `from` down to `to` of the beer song."
+  def sing(from, to) do
+    Enum.reduce(from..to, "", fn(number, song) ->
+      song <> verse(number) <> "\n"
+    end)
+  end
+  
+  @doc "Returns verses counting from `from` down to 0 of the beer song."
+  def sing(from), do: sing(from, 0)
+  
   @doc """
-  Get a single verse of the beer song
+  Returns the last verse of the beer song.
   """
-  @spec verse(integer) :: String.t
-  def verse(number) do
-    bottles = number - 1
+  def verse(0) do
     """
-    #{bottles} bottles of beer on the wall, #{bottles} bottles of beer.\n
-    Take one down and pass it around, #{bottles - 1} bottles of beer on the wall.\n"""
-  end
-  
-  def verse(3) do
-    """
-    2 bottles of beer on the wall, 2 bottles of beer.
-    Take one down and pass it around, 1 bottle of beer on the wall.
+    	No more bottles of beer on the wall, no more bottles of beer.
+    	Go to the store and buy some more, 99 bottles of beer on the wall.
     """
   end
   
-  def verse(2) do
-    """
-    1 bottle of beer on the wall, 1 bottle of beer.
-    Take it down and pass it around, no more bottles of beer on the wall.
-    """
-  end
   
+  @doc"""
+  Returns the second last verse of the beer song.
+ 
+  iex> Beer.verse(1)
+  "1 bottle of beer on the wall, 1 bottle of beer.\nTake it down and pass it around, no more bottles of beer on the wall.\n"
+  """
   def verse(1) do
-    """
-    No more bottles of beer on the wall, no more bottles of beer.
-    Go to the store and buy some more, 99 bottles of beer on the wall.
-    """
+    "1 bottle of beer on the wall, 1 bottle of beer.\nTake it down and pass it around, no more bottles of beer on the wall.\n"
   end
-  
-  @doc """
-  Get the entire beer song for a given range of numbers of bottles.
+  @doc"""
+  Returns the nth verse of the beer song.
+ 
+  iex> Beer.verse(99)
+  "99 bottles of beer on the wall, 99 bottles of beer.\nTake one down and pass it around, 98 bottles of beer on the wall.\n"
   """
-  @spec lyrics(Range.t()) :: String.t()
-  def lyrics(range\\99..0) do
-    Enum.to_list(range) \
-    |> Enum.map(fn n -> verse(n) end)
-    |> Enum.join("\n")
+  def verse(amount) do
+    "#{amount |> bottles} of beer on the wall, #{amount |> bottles} of beer.\nTake one down and pass it around, #{amount - 1 |> bottles} of beer on the wall.\n"
+  end
+  defp bottles(1) do
+    "1 bottle"
+  end
+  defp bottles(amount) do
+    "#{amount} bottles"
   end
 end
