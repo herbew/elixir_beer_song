@@ -34,10 +34,10 @@ defmodule BeerSong do
   @doc """
   Get the entire beer song for a given range of numbers of bottles.
   """
-  @spec lyrics(Range.t) :: String.t
-  def lyrics(range) do
-    Enum.map(range, &verse/1) \
+  @spec lyrics(Range.t()) :: String.t()
+  def lyrics(range\\99..0) do
+    Enum.to_list(range) \
+    |> Enum.map(fn n -> verse(n) end)
     |> Enum.join("\n")
   end
-  def lyrics, do: lyrics(100..1)
 end
